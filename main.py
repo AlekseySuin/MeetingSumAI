@@ -13,7 +13,7 @@ import whisper
 from IPython.display import display, Markdown
 from tempfile import NamedTemporaryFile
 
-client_id = st.secrets['cliend_id']
+client_id = st.secrets['client_id']
 
 secret = st.secrets['secret']
 
