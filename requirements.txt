@@ -1,0 +1,8 @@
+httpx==0.27.2
+ipython==8.12.3
+numpy==1.23.5
+openai_whisper==20240930
+Requests==2.32.3
+speechmatics_python==3.0.0
+streamlit==1.40.1
+whisper==1.1.10
