@@ -1,7 +1,5 @@
 import base64
 import os
-import time
-import numpy as np
 import requests
 import uuid
 import json
@@ -9,9 +7,6 @@ import streamlit as st
 from speechmatics.models import ConnectionSettings
 from speechmatics.batch_client import BatchClient
 from httpx import HTTPStatusError
-import whisper
-from IPython.display import display, Markdown
-from tempfile import NamedTemporaryFile
 
 client_id = st.secrets['client_id']
 
