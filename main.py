@@ -92,7 +92,7 @@ def get_chat_completion(auth_token, user_message):
         print(f"Произошла ошибка: {str(e)}")
         return -1
 
-def ourTranscribe(PATH_TO_FILE):
+def ourTranscribe(PATH_TO_FILE, promt):
     with BatchClient(settings) as client:
         try:
             job_id = client.submit_job(
@@ -116,7 +116,7 @@ def ourTranscribe(PATH_TO_FILE):
 
     encoded_credentials == auth
     st.write("Расшифровка аудиозаписи: \n",transcript)
-    answer = get_chat_completion(giga_token, 'Объясни какую задачу должен выполнить каждый участник этой реальной встречи: ' + transcript)
+    answer = get_chat_completion(giga_token, promt + transcript)
 
     answer.json()
 
@@ -145,6 +145,19 @@ st.title(":green[Meeting Summarization App]")
 
 st.write("Вы можете выбрать свой файл или заготовку")
 selectedOption = st.selectbox("Выберите ваш вариант", ('Свой файл', 'Заготовленные'))
+st.write("Пожалуйста, ввведите или выберите ваш promt-запрос")
+selectedPromtOption = st.selectbox("Выберите ваш вариант", ("Я выберу из готовых!", "Я напишу самостоятельно!"))
+if selectedPromtOption == "Я напишу самостоятельно!":
+    st.write("Внимание! От написание промта зависит качество суммаризации, если вы не уверены в своих силах - используйте готовые решения")
+    promt = st.text_input("Введите свой промт-запрос")
+else:
+    if(st.button("Объясни какую задачу должен выполнить каждый участник этой реальной встречи")):
+        promt = "Объясни какую задачу должен выполнить каждый участник этой реальной встречи"
+    if(st.button("Распиши задачи для каждого участника этой встречи")):
+        promt = "Распиши задачи для каждого участника этой встречи"
+    if(st.button("В крации расскажи о чем этот текст")):
+        promt = "В крации расскажи о чем этот текст"
+
 
 if selectedOption == "Свой файл":
     audio_file_extensions = ["mp3", "mp4", "mpeg", "mpga", "m4a", "wav", "webm", "flac"]
@@ -157,19 +170,24 @@ if selectedOption == "Свой файл":
         st.audio(audio_bytes, format='audio/mp3')
         PATH_TO_FILE = "audio/" + uploaded_file.name
 
-        result = ourTranscribe(PATH_TO_FILE)
-        st.download_button("Скачать суммаризацию",result)
+        promt = 'Объясни какую задачу должен выполнить каждый участник этой реальной встречи: '
+        result = ourTranscribe(PATH_TO_FILE, promt)
+        st.download_button("Скачать суммаризацию", result, "summarization.txt")
 else:
     st.write("Вариант 1:")
     if st.button("Собеседование"):
         PATH_TO_FILE = "audio/Собеседование — аудиозапись 1 (www.lightaudio.ru).mp3"
         st.write("Вы выбрали файл: Собеседование - аудиозапись")
-        result = ourTranscribe(PATH_TO_FILE)
-        st.download_button("Скачать суммаризацию", result)
+
+        promt = 'Объясни какую задачу должен выполнить каждый участник этой реальной встречи: '
+        result = ourTranscribe(PATH_TO_FILE, promt)
+        st.download_button("Скачать суммаризацию", result, "summarization.txt")
 
     st.write("Вариант 2:")
     if st.button("Совещание"):
         PATH_TO_FILE = "audio/Sovecshanie_po_ekonomicheskim_voprosam_-_V_sovecshanii_prinyali_uchastie_pomocshnik_Prezidenta_Andrej_Belouso_(Zvyki.com).mp3"
         st.write("Вы выбрали файл: Совещание - аудиозапись")
-        result = ourTranscribe(PATH_TO_FILE)
-        st.download_button("Скачать суммаризацию", result)
+
+        promt = 'Объясни какую задачу должен выполнить каждый участник этой реальной встречи: '
+        result = ourTranscribe(PATH_TO_FILE, promt)
+        st.download_button("Скачать суммаризацию", result, "summarization.txt")
