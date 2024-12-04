@@ -121,6 +121,8 @@ def ourTranscribe(PATH_TO_FILE):
     answer.json()
 
     st.write(answer.json()['choices'][0]['message']['content'])
+    result = answer.json()['choices'][0]['message']['content']
+    return result
 
 
 API_KEY = st.secrets['API_KEY']
@@ -155,16 +157,19 @@ if selectedOption == "Свой файл":
         st.audio(audio_bytes, format='audio/mp3')
         PATH_TO_FILE = "audio/" + uploaded_file.name
 
-        ourTranscribe(PATH_TO_FILE)
+        result = ourTranscribe(PATH_TO_FILE)
+        st.download_button("Скачать суммаризацию",result)
 else:
     st.write("Вариант 1:")
     if st.button("Собеседование"):
         PATH_TO_FILE = "audio/Собеседование — аудиозапись 1 (www.lightaudio.ru).mp3"
         st.write("Вы выбрали файл: Собеседование - аудиозапись")
-        ourTranscribe(PATH_TO_FILE)
+        result = ourTranscribe(PATH_TO_FILE)
+        st.download_button("Скачать суммаризацию", result)
 
     st.write("Вариант 2:")
     if st.button("Совещание"):
         PATH_TO_FILE = "audio/Sovecshanie_po_ekonomicheskim_voprosam_-_V_sovecshanii_prinyali_uchastie_pomocshnik_Prezidenta_Andrej_Belouso_(Zvyki.com).mp3"
         st.write("Вы выбрали файл: Совещание - аудиозапись")
-        ourTranscribe(PATH_TO_FILE)
+        result = ourTranscribe(PATH_TO_FILE)
+        st.download_button("Скачать суммаризацию", result)
