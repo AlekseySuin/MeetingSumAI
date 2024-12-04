@@ -101,11 +101,7 @@ def ourTranscribe(PATH_TO_FILE):
             )
             print(f'job {job_id} submitted successfully, waiting for transcript')
 
-            # Note that in production, you should set up notifications instead of polling.
-            # Notifications are described here: https://docs.speechmatics.com/features-other/notifications
             transcript = client.wait_for_completion(job_id, transcription_format='txt')
-            # To see the full output, try setting transcription_format='json-v2'.
-            print(transcript)
         except HTTPStatusError as e:
             if e.response.status_code == 401:
                 print('Invalid API key - Check your API_KEY at the top of the code!')
@@ -119,7 +115,7 @@ def ourTranscribe(PATH_TO_FILE):
     encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
 
     encoded_credentials == auth
-
+    st.write("Расшифровка аудиозаписи: \n",transcript)
     answer = get_chat_completion(giga_token, 'Объясни какую задачу должен выполнить каждый участник этой реальной встречи: ' + transcript)
 
     answer.json()
