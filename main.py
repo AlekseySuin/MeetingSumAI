@@ -181,7 +181,7 @@ if selectedOption == "Свой файл":
         st.download_button("Скачать суммаризацию", result, "summarization.txt")
 else:
     st.write("Вариант 1:")
-    if st.button("Собеседование") and promt is not None:
+    if st.button("Собеседование"):
         PATH_TO_FILE = "audio/Собеседование — аудиозапись 1 (www.lightaudio.ru).mp3"
         st.write("Вы выбрали файл: Собеседование - аудиозапись")
 
@@ -189,7 +189,7 @@ else:
         st.download_button("Скачать суммаризацию", result, "summarization.txt")
 
     st.write("Вариант 2:")
-    if st.button("Совещание") and promt is not None:
+    if st.button("Совещание"):
         PATH_TO_FILE = "audio/Sovecshanie_po_ekonomicheskim_voprosam_-_V_sovecshanii_prinyali_uchastie_pomocshnik_Prezidenta_Andrej_Belouso_(Zvyki.com).mp3"
         st.write("Вы выбрали файл: Совещание - аудиозапись")
 
